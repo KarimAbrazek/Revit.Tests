@@ -1,0 +1,102 @@
+﻿<Window x:Class="Revit.Tests.NewUIThreadTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Revit.Tests.NewUIThreadTest"
+        mc:Ignorable="d"
+    Title="Wall Creator" Height="280" Width="450"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="Create Walls in Revit" 
+                   FontSize="16" 
+                   FontWeight="Bold" 
+                   Margin="0,0,0,10"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" 
+                       Text="Number of Walls:" 
+                       VerticalAlignment="Center" 
+                       Margin="0,0,10,0"/>
+
+            <TextBox Grid.Column="1" 
+                     Text="{Binding WallCount, UpdateSourceTrigger=PropertyChanged}" 
+                     VerticalAlignment="Center"/>
+        </Grid>
+
+        <TextBlock Grid.Row="2" 
+                   Text="This command will create a series of walls in a row in the active view."
+                   TextWrapping="Wrap" 
+                   Margin="0,10"/>
+
+        <!-- Progress section -->
+        <Grid Grid.Row="3" 
+              Visibility="{Binding ProgressVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="{Binding StatusMessage}"
+                       Margin="0,5"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ProgressBar Grid.Column="0"
+                             Height="20"
+                             Minimum="0"
+                             Maximum="{Binding WallCount}"
+                             Value="{Binding CurrentProgress, Mode=OneWay}"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="{Binding ProgressPercentage, StringFormat={}{0}%}"
+                           VerticalAlignment="Center"
+                           Margin="5,0,0,0"/>
+            </Grid>
+        </Grid>
+
+        <Separator Grid.Row="4" Margin="0,10"/>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" 
+                    Content="Cancel" 
+                    Command="{Binding CancelCommand}" 
+                    Height="30"
+                    Width="80"
+                    Margin="0,0,10,0"
+                    Visibility="{Binding ProgressVisibility}"/>
+
+            <Button Grid.Column="2" 
+                    Content="Create Walls" 
+                    Command="{Binding CreateWallsCommand}" 
+                    Height="30"
+                    Width="100"/>
+        </Grid>
+    </Grid>
+</Window>
